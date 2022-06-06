@@ -1,5 +1,6 @@
 from distutils.command.upload import upload
 from django.db import models
+import os
 
 # Create your models here.
 class Post(models.Model):
@@ -18,4 +19,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
+
+    def get_file_name(self):
+        return os.path.basename(self.file_upload.name)
+    
+    def get_file_ext(self):
+        return self.get_file_name().split('.')[-1]  # 확장자 명을 제외한 파일명
     
