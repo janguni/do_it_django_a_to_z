@@ -2,7 +2,7 @@ from unicodedata import category
 from django.test import TestCase, Client
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 
 class TestView(TestCase):
     def setUp(self):
@@ -47,6 +47,12 @@ class TestView(TestCase):
         )
         self.post_003.tags.add(self.tag_python_kor)
         self.post_003.tags.add(self.tag_python)
+
+        self.comment_001 = Comment.objects.create(
+            post = self.post_001,
+            author = self.user_obama,
+            content = '첫번째 댓글입니다.'
+        )
 
 
         
@@ -177,10 +183,17 @@ class TestView(TestCase):
         post_area = main_area.find('div', id='post-area')
         self.assertIn(self.post_001.title, post_area.text)
         self.assertIn(self.category_programming.name,post_area.text)
-        # 2.5 첫번째 포스틩 작성자가 포스트 영역에 있다 (아직 구현 x)
+        # 2.5 첫번째 포스틩 작성자가 포스트 영역에 있다
         self.assertIn(self.user_trump.username.upper(), post_area.text)
         # 2.6 첫번째 포스트의 내용이 포스트 영역에 있다.
         self.assertIn(self.post_001.content, post_area.text)
+        # 3.1 댓글을 작성한 사용자의 이름이 있다.
+        comment_area = soup.find('div', id='comment-area')
+        comment_001_area = comment_area.find('div', id='comment-1')
+        self.assertIn(self.comment_001.author.username, comment_001_area.text)
+        # 3.2 댓글의 내용이 있다.
+        self.assertIn(self.comment_001.content, comment_001_area.text)
+
 
         # 3. 첫번째 포스트의 내용에 포스트에 해당하는 태그가 있다.
         self.assertIn(self.tag_hello.name, post_area.text)
