@@ -1,7 +1,10 @@
 from unicodedata import category
+from xml.etree.ElementTree import Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
 from .models import Category, Post, Tag
+from .forms import CommentForm
 from django.shortcuts import render, redirect
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
@@ -23,6 +26,7 @@ class PostDetail(DetailView):
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(
             category=None).count()
+        context['comment_form'] = CommentForm
         return context
 
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -140,26 +144,21 @@ def tag_page(request, slug):
         }
     )
 
-# FBV 방식 blog 목록
-# def index(request):
-#     posts = Post.objects.all().order_by('-pk')
 
-#     return render(
-#         request, d
-#         'blog/index.html',
-#         {
-#             'posts' : posts,
-#         }
-#     )
+def new_comment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk) # pk에 해당하는 포스트가 없는 경우 404
 
-# FBV 방식 blog 상세목록
-# def single_post_page(request,pk):
-#     post = Post.objects.get(pk=pk)
-
-#     return render(
-#         request,
-#         'blog/single_post_page.html',
-#         {
-#             'post': post,
-#         }
-#     )
+        if request.method == 'POST': # post로 오는것이 정상이지만 url에 쳐서 들어올 수도 있어서 이것을 방지
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+        else:
+            return redirect(post.get_absolute_url())
+    
+    else:
+        raise PermissionDenied
