@@ -3,7 +3,7 @@ from xml.etree.ElementTree import Comment
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
-from .models import Category, Post, Tag
+from .models import Category, Post, Tag, Comment
 from .forms import CommentForm
 from django.shortcuts import render, redirect
 from django.core.exceptions import PermissionDenied
@@ -162,3 +162,13 @@ def new_comment(request, pk):
     
     else:
         raise PermissionDenied
+
+class CommentUpdate(LoginRequiredMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
