@@ -1,22 +1,128 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
-    <title>개발자 장윤희입니다!</title>
+    <title> About 윤희 </title>
+
+    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+
+    <link rel="stylesheet" href="{% static 'single_pages/css/about_me.css' %}" media="screen">
+
 </head>
 
 <body>
-    <nav style="background-color: darkgreen; font-size: 150%; text-align: center">
-        <a href="/blog/">Blog</a>
-        <a href="/about_me/">About me</a>
-    </nav>
+{% include 'blog/navbar.html' %}
 
-    <h1>안녕하세요. 장윤희입니다.</h1>
-    <h2>이력</h2>
-    <h2>Portfolio</h2>
-    <h3>아직 공사중 입니다.</h3>
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>안녕하세요 윤희입니다.</h1>
+                <br/>
+                <p class="'lead">
+                    음악 듣는 걸 좋아하고 산책을 좋아합니다.
+                    미래의 반려견과 함께 산책을 나가고 싶습니다.
+                    현재 정보처리 기사 자격증 준비중입니다.
+                </p>
 
+                <ul>
+                    <li>Leaned List</li>
+                    <ul>
+                        <li>스프링 기본원리와 활용</li>
+                        <li>JPA 기본원리와 활용</li>
+                        <li>Do it 장고 + 부트스트랩 파이썬 웹 개발의 정석</li>
+                    </ul>
+                    <li>학력</li>
+                    <ul>
+                        <li>상명대학교 경제금융학부 재학중 2018.03~</li>
+                        <li>컴퓨터공학과 다전공</li>
+                    </ul>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <img class="img-fluid" src="{% static 'single_pages/images/my_left.JPG' %}">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light margin-for-footer" >
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>PORTFOLIO</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card" data-toggle="modal" data-target="#spring2021">
+                    <img class="card-img-top" src="{% static 'single_pages/images/spring_learnd.jpg' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">스프링 강의 실습하기</h5>
+                        <p>인프런 김영한 강사님께 배웠습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card" data-toggle="modal" data-target="#django2022">
+                    <img class="card-img-top" src="{% static 'single_pages/images/django_learnd.jpg' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">장고를 활용하여 웹사이트 만들기</h5>
+                        <p>책으로 공부했습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card" data-toggle="modal" data-target="#future2030">
+                    <img class="card-img-top" src="{% static 'single_pages/images/future.jpg' %}">
+                    <div class="card-body">
+                        <h5 class="card-title">카카오에 입사하고 싶습니다.</h5>
+                        <p>사용자들이 자주 사용하는 기능을 새롭게 개발하고 싶습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="spring2021" tabindex="-1" role="dialog" aria-labelledby="spring2021ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        꽝
+    </div>
+</div>
+<div class="modal fade" id="django2022" tabindex="-1" role="dialog" aria-labelledby="django2022ModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        꽝2
+    </div>
+</div>
+<div class="modal fade" id="future2030" tabindex="-1" role="dialog" aria-labelledby="future2030ModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        꽝3
+    </div>
+</div>
+
+
+
+
+<div class="fixed-bottom">
+    {% include 'blog/footer.html' %}
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
